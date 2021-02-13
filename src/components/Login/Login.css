@@ -1,0 +1,27 @@
+.button-style Button{
+    margin-top: 10px;
+}
+.submit-form-style{
+    width: 400px;
+    margin: 10px auto;
+}
+.submit-form-style input{
+    display: block;
+    margin-top: 20px;
+    padding: 5px;
+    width: 300px;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+.error-style{
+    color : red;
+}
+.submit-button{
+    cursor: pointer;
+    color : black;
+}
+.sign-button{
+    cursor: pointer;
+    color : green;
+    font-size: 20px;
+}
