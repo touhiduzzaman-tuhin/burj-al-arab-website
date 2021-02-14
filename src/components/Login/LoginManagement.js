@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from './firebase.config';
 
+
 export const initializeFirebase = () => {
     if (firebase.apps.length === 0) {
         firebase.initializeApp(firebaseConfig);
@@ -86,6 +87,7 @@ export const createUserWithEmailAndPassword = (name, email, password) => {
 }
 
 export const signInWithEmailAndPassword = (email, password) => {
+
     return firebase.auth().signInWithEmailAndPassword(email, password)
         .then(res => {
             const newUserInfo = res.user;
@@ -131,10 +133,21 @@ export const passwordChange = (email) => {
     var emailAddress = email;
 
     auth.sendPasswordResetEmail(emailAddress)
-        .then( () => {
+        .then(() => {
             alert('Password Reset Email Sent');
         })
-        .catch( (error) => {
+        .catch((error) => {
             alert(error.message)
         })
+}
+
+export const authTokenStore = () => {
+    firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
+        .then(idToken => {
+            // console.log(idToken);
+            sessionStorage.setItem('token', idToken);
+            
+        })
+        .catch( error => {
+        });
 }

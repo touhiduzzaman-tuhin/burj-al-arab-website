@@ -1,19 +1,15 @@
 import React, { useContext, useState } from 'react';
 import './Login.css';
 import { UserContext } from '../../App';
-import { useHistory, useLocation } from 'react-router-dom';
 import { Button } from '@material-ui/core';
-import { googleSignIn, signOut, initializeFirebase, facebookLogin, createUserWithEmailAndPassword, signInWithEmailAndPassword, passwordChange } from './LoginManagement';
+import { googleSignIn, signOut, initializeFirebase, facebookLogin, createUserWithEmailAndPassword, signInWithEmailAndPassword, passwordChange, authTokenStore } from './LoginManagement';
 // import { useForm } from "react-hook-form";
-
+import { useHistory, useLocation } from 'react-router-dom';
 
 const Login = () => {
     initializeFirebase();
 
-    const [loggedInUser, setLoggedInUser] = useContext(UserContext);
-    const history = useHistory();
-    const location = useLocation();
-    let { from } = location.state || { from: { pathname: "/" } };
+    const [loggedInUser, setLoggedInUser] = useContext(UserContext); 
 
     const [user, setUser] = useState({
         name : '',
@@ -26,9 +22,15 @@ const Login = () => {
 
     const [newUser, setNewUser] = useState({});
 
+    const history = useHistory();
+    const location = useLocation();
+    let { from } = location.state || { from: { pathname: "/" } };
+
     const handleGoogleSignIn = () => {
         googleSignIn()
         .then( res => {
+            // authTokenStore();
+            storeAuthToken();
             handleResponse(res, true);
             // setLoggedInUser(res);
             // setUser(res);
@@ -90,6 +92,10 @@ const Login = () => {
         if(isRedirect){
             history.replace(from);
         }
+    }
+
+    const storeAuthToken = () => {
+        authTokenStore();
     }
 
     const handlePasswordChange = () => {
