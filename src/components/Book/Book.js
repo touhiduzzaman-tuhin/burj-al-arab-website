@@ -9,39 +9,43 @@ import {
 } from '@material-ui/pickers';
 import { Button } from '@material-ui/core';
 import Bookings from '../Bookings/Bookings';
+import thankYou from '../../images/thank-you.gif';
 
 const Book = () => {
     const { bedType } = useParams();
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+    const [placeOrder, setPlaceOrder] = useState(false);
     const [selectedDate, setSelectedDate] = useState({
-        checkIn : new Date(),
-        checkOut : new Date()
+        checkIn: new Date(),
+        checkOut: new Date()
     });
 
     const handleCheckInDate = (date) => {
-        const newDates = {...selectedDate};
+        const newDates = { ...selectedDate };
         newDates.checkIn = date;
         setSelectedDate(newDates);
     };
 
     const handleCheckOutDate = (date) => {
-        const newDates = {...selectedDate};
+        const newDates = { ...selectedDate };
         newDates.checkOut = date;
         setSelectedDate(newDates);
     };
 
 
     const handleBooking = () => {
-        const newBookings = {...loggedInUser, ...selectedDate};
+        const newBookings = { ...loggedInUser, ...selectedDate };
         fetch('http://localhost:5000/addBookings', {
             method: 'POST',
-            headers : {'Content-Type': 'application/json'},
-            body : JSON.stringify(newBookings)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newBookings)
         })
-        .then(response => response.json())
-        .then(result => {
-            console.log(result);
-        })
+            .then(response => response.json())
+            .then(result => {
+                setPlaceOrder(true);
+                alert('Your Order Place Successfully!!!');
+                console.log(result);
+            })
     }
     return (
         <div style={{ textAlign: 'center' }}>
@@ -63,6 +67,7 @@ const Book = () => {
                             'aria-label': 'change date',
                         }}
                     />
+
                     <KeyboardDatePicker
                         margin="normal"
                         id="date-picker-dialog"
@@ -75,11 +80,20 @@ const Book = () => {
                         }}
                     />
                 </Grid>
-                <Button onClick={handleBooking} variant="contained" color="secondary">Book Now</Button>
+                <Button style={{ height: '40px' }} onClick={handleBooking} variant="contained" color="secondary">Book Now</Button>
             </MuiPickersUtilsProvider>
-            <Bookings></Bookings>
+            {/* <Bookings></Bookings> */}
+            <div className="row">
+                <div className="col-md-4">
+                    {
+                        placeOrder && <img src={thankYou} alt="" />
+                    }
+                </div>
+                <div className="col-md-8">
+                    <Bookings></Bookings>
+                </div>
+            </div>
         </div>
-
     );
 };
 
