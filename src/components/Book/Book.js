@@ -9,7 +9,6 @@ import {
 } from '@material-ui/pickers';
 import { Button } from '@material-ui/core';
 import Bookings from '../Bookings/Bookings';
-import thankYou from '../../images/thank-you.gif';
 
 const Book = () => {
     const { bedType } = useParams();
@@ -80,15 +79,14 @@ const Book = () => {
                         }}
                     />
                 </Grid>
-                <Button style={{ height: '40px' }} onClick={handleBooking} variant="contained" color="secondary">Book Now</Button>
+                <Link style={{textDecoration: 'none'}} to="/thankYou">
+                    <Button style={{ height: '40px' }} onClick={handleBooking} variant="contained" color="secondary">
+                        Book Now
+                    </Button>
+                </Link>
             </MuiPickersUtilsProvider>
             {/* <Bookings></Bookings> */}
             <div className="row">
-                <div className="col-md-4">
-                    {
-                        placeOrder && <img src={thankYou} alt="" />
-                    }
-                </div>
                 <div className="col-md-8">
                     <Bookings></Bookings>
                 </div>
